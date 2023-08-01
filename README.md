@@ -51,12 +51,12 @@ Publishing artifact to Nexus snapshot and release repo using maven.
 - update nexus repository urls with the current IP of nexus server on line 63 and 74 of settings.xml
 - update url for sonarqube on line 86  in the settings.xml file.
 - update nexus url in pom.xml file on line 57 and 61
-5. Go settings.xml under <MAVEN_INSTALL_LOCATION>\apache-maven-3.6.0\conf or C:\Users\<USER_NAME>\.m2  or mkdir ~/.m2
-6. Create/Move profiles named snapshot and release in settings.xml in `~/.m2` (can be done in pom.xml as well)
-7. Add server user name and pwd in setting.xml (Encrypted recommended).
-8. Edit pom.xml and add repository and snapshot repository in distribution management tag DEFAULT/DONE
-9. Mark id should match in step 7 with server id of settings.xml, UPDATE NEXUS IP
-10. Run the following `maven`/`mvn` commands to validate/package/deploy your app artifacts remotely
+- commit changes and push to repo
+- pull chamges from within maven server
+5. copy settings.xml from within maven server into .m2 directory 
+- mv settings.xml ~/.m2
+
+6. Run the following `maven`/`mvn` commands to validate/package/deploy your app artifacts remotely
    - `mvn validate`   (validate the project is correct and all necessary information is available.)
    - `mvn compile`    (compile the source code of the project)
    - `mvn test`       (run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.)
