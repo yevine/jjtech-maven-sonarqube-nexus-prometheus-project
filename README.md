@@ -2,11 +2,26 @@
 - https://github.com/awanmbandi/maven-nexus-project-eagles-batch/blob/maven-nexus-install/nexus-install.sh
 
 ## Install Apache Maven
-- Create a linux2 instance with t2.medium type. Then follow installation guide in the link below.
+- Create a linux2 instance (ensure to not select the 2023 linux ami) with t2.micro type. 
+- ssh into the instance and follow the link below for installation setup.
+- install tree with command: sudo yum install tree -y
 - https://github.com/awanmbandi/maven-nexus-project-eagles-batch/blob/maven-nexus-install/maven-install.md
 
 ## Install SonarQube
 - https://github.com/awanmbandi/eagles-batch-devops-projects/blob/maven-nexus-sonarqube-jenkins-install/sonarqube-install.sh
+
+## Maven commands
+1. clone the source code from repository where it is stored.
+2. cd into the cloned folder
+3. cd in the javawebapp folder where the source code for the app is found prior to start running maven commands.
+4. Run the following `maven`/`mvn` commands to validate/package/deploy your app artifacts remotely
+   - `mvn validate`   (validate the project is correct and all necessary information is available.)
+   - `mvn compile`    (compile the source code of the project and craetes a target directory)
+   - `mvn test`       (run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.)
+   - `mvn package`    (take the compiled code and package it in its distributable format, such as a WAR/JAR/EAR.)
+   - `mvn verify`     (run any checks to verify the package is valid and meets quality criteria.)
+   - `mvn install`    (install the package into the local repository, for use as a dependency in other projects locally.)
+   - `mvn deploy`     (done in an integration or release environment, copies the final package to the remote/SNAPSHOT repository for sharing with other developers and projects.)
 
 ## Configure Nexus Repository 
 
