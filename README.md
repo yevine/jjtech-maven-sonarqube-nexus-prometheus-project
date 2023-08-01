@@ -36,6 +36,10 @@
 - https://github.com/awanmbandi/eagles-batch-devops-projects/blob/maven-nexus-sonarqube-jenkins-install/sonarqube-install.sh
 - Access sonarqube on port PUBLIC_IP:9000
 - click login and user username:admin and password:admin
+- create new project and provide any random name. Then click setup
+- Proivde name for token and generate token, select Java and then Maven.
+- Copy generated command and save ina secure location.
+- Navigate back to maven server and paste the command copied in previous step in the directory with pom.xml file
 
 ## Configure Nexus Repository 
 
@@ -56,17 +60,11 @@ Publishing artifact to Nexus snapshot and release repo using maven.
 5. copy settings.xml from within maven server into .m2 directory 
 - mv settings.xml ~/.m2
 
-6. Run the following `maven`/`mvn` commands to validate/package/deploy your app artifacts remotely
-   - `mvn validate`   (validate the project is correct and all necessary information is available.)
-   - `mvn compile`    (compile the source code of the project)
-   - `mvn test`       (run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.)
-   - `mvn package`    (take the compiled code and package it in its distributable format, such as a WAR/JAR/EAR.)
-   - `mvn verify`     (run any checks to verify the package is valid and meets quality criteria.)
-   - `mvn install`    (install the package into the local repository, for use as a dependency in other projects locally.)
+6. Run the following `maven`/`mvn` command to deploy jar package to a remote repo.
    - `mvn deploy`     (done in an integration or release environment, copies the final package to the remote/SNAPSHOT repository 
                       for sharing with other developers and projects.)
 
-11. Change the version from 1.0-Snapshot to 1.0
+11. Change the version from 1.0-Snapshot to 1.1
 12. Run `mvn deploy` to deploy to Snapshot Repo or `mvn clean deploy -P release`, to deploy it to Release Repo
 
 ## Maven Lifecycle Phases
@@ -75,7 +73,7 @@ Publishing artifact to Nexus snapshot and release repo using maven.
 
 ##############################
 
-mvn sonar:sonar \
-  -Dsonar.projectKey=JavaProject \
-  -Dsonar.host.url=http://3.92.198.127:9000 \
-  -Dsonar.login=283258f8fc205fc88918a943c72d4f76afe5d582
+mvn clean sonar:sonar deploy \
+  -Dsonar.projectKey=test-project \
+  -Dsonar.host.url=http://3.145.133.93:9000 \
+  -Dsonar.login=e53fbdbc2cb430e2005819e9c403aab4a192e10d
