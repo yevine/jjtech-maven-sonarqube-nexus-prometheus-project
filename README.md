@@ -2,6 +2,7 @@
 - https://github.com/awanmbandi/maven-nexus-project-eagles-batch/blob/maven-nexus-install/nexus-install.sh
 
 ## Install Apache Maven
+- Create a linux2 instance with t2.medium type. Then follow installation guide in the link below.
 - https://github.com/awanmbandi/maven-nexus-project-eagles-batch/blob/maven-nexus-install/maven-install.md
 
 ## Install SonarQube
