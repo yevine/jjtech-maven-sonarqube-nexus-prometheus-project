@@ -10,7 +10,7 @@ sudo cp -r prometheus-2.23.0.linux-amd64/consoles /etc/prometheus/
 sudo cp -r prometheus-2.23.0.linux-amd64/console_libraries /etc/prometheus
 sudo cp prometheus-2.23.0.linux-amd64/promtool /usr/local/bin/
 
-rm -rf prometheus-2.23.0.linux-amd64.tar.gz prometheus-2.19.0.linux-amd64
+rm -rf prometheus-2.23.0.linux-amd64.tar.gz prometheus-2.23.0.linux-amd64
 sudo cp prometheus.yml /etc/prometheus/
 sudo cp prometheus.service /etc/systemd/system/prometheus.service
 
