@@ -45,7 +45,7 @@
 - ssh into prometheus server
 - edit inbound sg to allow traffic on port 9093
 - install alertmanager < sh install-alertmanager.sh >
-- access alertmanager on the browser using public_ip:9093
+- access alertmanager on the browser using < public_ip:9093 >
 - update alertmanager file in /etc/alertmanager/ with your own configuration for email sender and recipient by runnig < sudo nano /etc/alertmanager/alertmanager.yml >
 - Navigate to < https://myaccount.google.com/ > 
 - https://myaccount.google.com/
@@ -58,5 +58,5 @@
 - ssh into any apps server
 - install stress < sudo apt-get install stress >
 - The run < stress --cpu 4 --timeout 300s >
-- run < sudo systemctl stop node-exporter > to trigger the alert rule
+
 
