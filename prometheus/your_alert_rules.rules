@@ -1,0 +1,11 @@
+groups:
+  - name: example-group
+    rules:
+      - alert: HostHighCpuLoad
+        expr: irate(node_cpu_seconds_total{mode="idle"}[1m]) * 100 < 30
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High usage on {{ $labels.instance }}"
+          description: "{{ $labels.instance }} has an average CPU idle (current value: {{ $value }}s)"
