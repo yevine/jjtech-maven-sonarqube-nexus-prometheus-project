@@ -1,0 +1,15 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: 'admin'
+  group_by: ['alertname']
+
+receivers:
+  - name: 'admin'
+    email_configs:
+      - to: 'anselmenumbisia@gmail.com'
+        from: 'anselmenumbisia@gmail.com'
+        smarthost: 'smtp.gmail.com:587'
+        auth_username: 'anselmenumbisia@gmail.com'
+        auth_password: 'iorlhwqxazvgmgth'

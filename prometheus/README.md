@@ -41,5 +41,12 @@
 - Grab grafana dashboards from here https://grafana.com/grafana/dashboards/ 
 - grab this dashboard id < https://grafana.com/grafana/dashboards/11074-node-exporter-for-prometheus-dashboard-en-v20201010/ >  **ID: 11074**
 
-
+# Install prometheus alertmanager
+- ssh into prometheus server
+- install alertmanager < sh install-alertmanager.sh>
+- update alertmanager file in /etc/alertmanager/ with your own configuration for email sender and recipient by runnig < sudo nano /etc/alertmanager/alertmanager.yml >
+- Nam=vigate to < https://myaccount.google.com/ > 
+- https://myaccount.google.com/
+- search for < app password >
+- Create an app password and paste the password to  ** auth_password ** section in your alertmanager file
 
