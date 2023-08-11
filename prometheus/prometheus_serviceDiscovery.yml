@@ -10,3 +10,10 @@ scrape_configs:
         access_key: yourkey
         secret_key: yourkey
         port: 9100
+      
+# scrape_configs:
+#   - job_name: 'node'
+#     ec2_sd_configs:
+#       - region: ca-central-1 
+#         profile: default
+#         port: 9100
