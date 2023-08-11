@@ -26,6 +26,7 @@ sudo chown alertmanager:alertmanager /usr/local/bin/amtool
 
 # Move alertmanahger configuration file into /etc/alertmanager directory
 sudo cp alertmanager.yml /etc/alertmanager/
+sudo cp alertmanager-rules.yml /etc/alertmanager/alertmanager-rules.yml
 
 # Copy alertmanager system file to /etc/systemd directory
 sudo cp alertmanager.service /etc/systemd/system/alertmanager.service

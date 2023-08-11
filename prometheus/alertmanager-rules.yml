@@ -1,0 +1,39 @@
+
+# HighCpuUsage: This rule triggers a warning-level alert when the CPU usage (user mode) 
+# rate exceeds 80% for at least 5 minutes.
+# HighMemoryUsage: This rule triggers a critical-level alert when the available memory falls 
+# below 20% (80% used) for at least 10 minutes.
+# DiskSpaceExhausted: This rule triggers a critical-level alert when the available disk space falls below 10% for at least 30 minutes. It uses the fstype label to target specific filesystem types
+
+groups:
+  - name: example-group
+    rules:
+      # Alert for high CPU usage
+      - alert: HighCpuUsage
+        expr: sum(rate(node_cpu_seconds_total{mode="user"}[1m])) by (instance) > 0.8
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "{{ $labels.instance }} has high CPU usage."
+
+      # Alert for high memory usage
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemTotal - node_memory_MemFree - node_memory_Buffers - node_memory_Cached) / node_memory_MemTotal > 0.8
+        for: 10m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High Memory Usage on {{ $labels.instance }}"
+          description: "{{ $labels.instance }} has high memory usage."
+
+      # Alert for disk space usage
+      - alert: DiskSpaceExhausted
+        expr: node_filesystem_avail_bytes{fstype="ext4"} / node_filesystem_size_bytes{fstype="ext4"} < 0.1
+        for: 30m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Disk Space Exhausted on {{ $labels.instance }}"
+          description: "{{ $labels.instance }} has low disk space."

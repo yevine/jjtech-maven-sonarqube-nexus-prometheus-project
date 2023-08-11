@@ -9,6 +9,9 @@ scrape_configs:
       - region: ca-central-1
         port: 9100
 
+rule_files:
+  - "alertmanager-rules.yml"
+
 alerting:
   alertmanagers:
   - static_configs:
