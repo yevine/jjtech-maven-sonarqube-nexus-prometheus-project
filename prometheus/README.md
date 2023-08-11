@@ -43,9 +43,11 @@
 
 # Install prometheus alertmanager
 - ssh into prometheus server
+- edit inbound sg to allow traffic on port 9093
 - install alertmanager < sh install-alertmanager.sh>
+- access alertmanager on the browser using public_ip:9093
 - update alertmanager file in /etc/alertmanager/ with your own configuration for email sender and recipient by runnig < sudo nano /etc/alertmanager/alertmanager.yml >
-- Nam=vigate to < https://myaccount.google.com/ > 
+- Navigate to < https://myaccount.google.com/ > 
 - https://myaccount.google.com/
 - search for < app password >
 - Create an app password and paste the password to  ** auth_password ** section in your alertmanager file
