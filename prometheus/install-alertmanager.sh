@@ -25,7 +25,7 @@ sudo chown alertmanager:alertmanager /usr/local/bin/alertmanager
 sudo chown alertmanager:alertmanager /usr/local/bin/amtool
 
 # Move alertmanahger configuration file into /etc/alertmanager directory
-sudo cp alertmanager.yml /etc/alertmanager/
+sudo cp alertmanager.yml /etc/alertmanager/alertmanager.yml
 sudo cp alertmanager-rules.yml /etc/prometheus/alertmanager-rules.yml
 
 # Copy alertmanager system file to /etc/systemd directory

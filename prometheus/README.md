@@ -46,12 +46,13 @@
 - edit inbound sg to allow traffic on port 9093
 - install alertmanager < sh install-alertmanager.sh >
 - access alertmanager on the browser using < public_ip:9093 >
-- update alertmanager file in /etc/alertmanager/ with your own configuration for email sender and recipient by runnig < sudo nano /etc/alertmanager/alertmanager.yml >
 - Navigate to < https://myaccount.google.com/ > 
 - https://myaccount.google.com/
+- configure 2 step verification for your google account? 
 - search for < app password >
 - Create an app password and paste the password to  ** auth_password ** section in your alertmanager file
-- restart the alermanager service < sudo systemctl restart alertmanager>
+- update alertmanager file in /etc/alertmanager/ with your own configuration for email sender and   recipient by running < sudo nano /etc/alertmanager/alertmanager.yml >
+- restart the alermanager service < sudo systemctl restart alertmanager >
 
 
 ## Test alert rules
