@@ -58,7 +58,7 @@ Steps involved:
 only port 22 needs to be open
 
 # Change Host Name to Slave
-sudo hostnamectl set-hostname Slave
+sudo hostnamectl set-hostname jenkins-agent2
 
 # Install Java
 sudo apt update -y 
@@ -129,3 +129,10 @@ ENABLE GITHUB WEBHOOK
 - ensure "just push event" is checked
 - Add webhook
 - Verify connection is established by agreen tick
+
+
+
+
+
+
+
