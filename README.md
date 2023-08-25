@@ -78,3 +78,20 @@ mvn clean sonar:sonar deploy \
   -Dsonar.host.url=http://3.145.133.93:9000 \
   -Dsonar.login=e53fbdbc2cb430e2005819e9c403aab4a192e10d
 
+
+######################################
+Jenkins pipeline project
+#######################################
+
+# install docker and git in jenkins server
+- sudo yum install git -y
+- sudo yum install docker -y
+- sudo systemctl start docker
+- sudo systemctl enable docker
+- sudo systemctl status docker
+- sudo usermod -aG docker jenkins
+
+- install SonarQube Scanner plugin
+- install "Docker Pipeline" plugin
+# Install maven pipeline and Docker Pipeline plugins from jenkins
+- Navigate to manage jenkins > tools > install maven automatically
