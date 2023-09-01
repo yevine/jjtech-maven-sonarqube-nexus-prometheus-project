@@ -51,19 +51,42 @@ pipeline {
             }
         }
         
-        stage('SonarQube scanning') {
+    //     stage('SonarQube scanning') {
+    //         steps {
+    //             dir('JavaWebApp/') {
+    //             withSonarQubeEnv('SonarQube') {
+    //                 withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+    //                     sh """
+    //                 mvn sonar:sonar \
+    //                 -Dsonar.projectKey=test-project \
+    //                 -Dsonar.host.url=http://54.208.116.33:9000 \
+    //                 -Dsonar.login=$SONAR_TOKEN
+    //                 """
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+
+    //     stage('Quality Gate') {
+        //     steps {
+        //         waitForQualityGate abortPipeline: true
+        //     }
+        // }
+
+            stage('SonarQube scanning') {
             steps {
                 dir('JavaWebApp/') {
-                withSonarQubeEnv('SonarQube') {
+                // withSonarQubeEnv('SonarQube') {
                     withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
                         sh """
                     mvn sonar:sonar \
-                    -Dsonar.projectKey=test-project \
-                    -Dsonar.host.url=http://54.208.116.33:9000 \
-                    -Dsonar.login=ddb982046ec0f3207e073fe8bde69411b6c58c46
-                    """
+                     -Dsonar.projectKey=tower-project \
+                     -Dsonar.host.url=http://172.31.80.37:9000 \
+                     -Dsonar.login=$SONAR_TOKEN
+                     """
                     }
-                }
+                // }
             }
         }
     }
