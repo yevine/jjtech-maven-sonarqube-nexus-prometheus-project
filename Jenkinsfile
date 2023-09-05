@@ -49,6 +49,13 @@ pipeline {
                     
                 
             }
+
+            post {
+                success {
+                    echo 'archiving....'
+                    archiveArtifacts artifacts: '**/*.war', followSymlinks: false
+                }
+            }
         }
         
         stage('SonarQube scanning') {
@@ -60,7 +67,7 @@ pipeline {
                     mvn sonar:sonar \
                       -Dsonar.projectKey=tower-project1 \
                       -Dsonar.host.url=http://172.31.80.37:9000 \
-                      -Dsonar.login=$SONAR_TOKEN
+                      -Dsonar.login=942c2c64b96dd2370ac02224ffc2e8e9365aad77
                     """
                     }
                 }
