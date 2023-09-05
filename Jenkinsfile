@@ -7,7 +7,7 @@ pipeline {
 // }
     
     agent {
-        docker { image 'maven:3.8.6-openjdk-11' }
+        docker { image 'ubuntu' }
     }
     
     tools {
@@ -111,7 +111,7 @@ pipeline {
                 sh "sed -i 's|http://172.31.88.170:8081/repository/maven-release/|http://172.31.88.170:8081/repository/maven-release/|g' pom.xml"                
                 sh 'mvn clean deploy -DskipTests'
                 }
-                }
+              }
                
             }
         }
