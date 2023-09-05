@@ -51,45 +51,45 @@ pipeline {
             }
         }
         
-    //     stage('SonarQube scanning') {
-    //         steps {
-    //             dir('JavaWebApp/') {
-    //             withSonarQubeEnv('SonarQube') {
-    //                 withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
-    //                     sh """
-    //                 mvn sonar:sonar \
-    //                 -Dsonar.projectKey=test-project \
-    //                 -Dsonar.host.url=http://54.208.116.33:9000 \
-    //                 -Dsonar.login=$SONAR_TOKEN
-    //                 """
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
-    //     stage('Quality Gate') {
-        //     steps {
-        //         waitForQualityGate abortPipeline: true
-        //     }
-        // }
-
-            stage('SonarQube scanning') {
+        stage('SonarQube scanning') {
             steps {
                 dir('JavaWebApp/') {
-                // withSonarQubeEnv('SonarQube') {
+                withSonarQubeEnv('SonarQube') {
                     withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
                         sh """
                     mvn sonar:sonar \
-                     -Dsonar.projectKey=tower-project \
-                     -Dsonar.host.url=http://172.31.80.37:9000 \
-                     -Dsonar.login=$SONAR_TOKEN
-                     """
+                      -Dsonar.projectKey=tower-project1 \
+                      -Dsonar.host.url=http://172.31.80.37:9000 \
+                      -Dsonar.login=$SONAR_TOKEN
+                    """
                     }
-                // }
+                }
             }
         }
     }
+
+        stage('Quality Gate') {
+            steps {
+                waitForQualityGate abortPipeline: true
+            }
+        }
+
+    //         stage('SonarQube scanning') {
+    //         steps {
+    //             dir('JavaWebApp/') {
+    //             // withSonarQubeEnv('SonarQube') {
+    //                 withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+    //                     sh """
+    //                 mvn sonar:sonar \
+    //                  -Dsonar.projectKey=tower-project \
+    //                  -Dsonar.host.url=http://172.31.80.37:9000 \
+    //                  -Dsonar.login=$SONAR_TOKEN
+    //                  """
+    //                 }
+    //             // }
+    //         }
+    //     }
+    // }
 
     }
 }
