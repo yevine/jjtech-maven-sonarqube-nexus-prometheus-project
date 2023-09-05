@@ -7,7 +7,7 @@ pipeline {
 // }
     
     agent {
-        docker { image 'ubuntu' }
+        docker { image 'maven:3.8.6-openjdk-11' }
     }
     
     tools {
@@ -83,6 +83,9 @@ pipeline {
 
             stage('SonarQube scanning') {
             steps {
+                agent {
+                      docker { image 'nexus' }
+                 }
                 dir('JavaWebApp/') {
                 // withSonarQubeEnv('SonarQube') {
                     withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
