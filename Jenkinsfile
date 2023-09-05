@@ -5,10 +5,10 @@ pipeline {
 //     label 'jenkins-agent1'
 //   }
 // }
-    
-    agent {
-        docker { image 'maven:3.8.6-openjdk-11' }
-    }
+    agent any
+    // agent {
+    //     docker { image 'maven:3.8.6-openjdk-11' }
+    // }
     
     tools {
       maven 'maven'
@@ -33,11 +33,11 @@ pipeline {
             }
 
             }
-          stage('approval') {
-            steps {
-                input "Please review the test and click 'Proceed' to apply it"
-            }
-        }
+        //   stage('approval') {
+        //     steps {
+        //         input "Please review the test and click 'Proceed' to apply it"
+        //     }
+        // }
 
         stage('build') {
             steps {
@@ -83,9 +83,6 @@ pipeline {
 
             stage('SonarQube scanning') {
             steps {
-                agent {
-                      docker { image 'nexus' }
-                 }
                 dir('JavaWebApp/') {
                 // withSonarQubeEnv('SonarQube') {
                     withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
