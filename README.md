@@ -100,6 +100,7 @@ Jenkins pipeline project for jenkins-Maven-SOnarqube-Nexus-Slack
    - maven integration
    - docker pipeline
    - Slack Notification
+   - Prometheus metrics
    
 Once all plugins are installed, select Restart Jenkins when installation is complete and no jobs are running
 
@@ -214,3 +215,90 @@ Copy your Nexus Public IP Address and paste on the browser = http:://NexusServer
 - Name: maven_project
 - Scroll-down to Group section & select all the available repositories (maven-snapshots, maven-public, maven-releases, maven-central) as members Hint: You can select one repo at a time and click on > symbol to add the repo as group member.
 - Once all the repositories are added to the group, click on Create repository
+
+# Integration with ansible, node exporter and deployment to dev, stage and prod stages
+1. install ansible on jenkins master node. Get script from here **https://github.com/cvamsikrishna11/devops-fully-automated/blob/installations/jenkins-maven-ansible-setup.sh**
+
+2. EC2 (Dev/Stage/Prod)
+
+- Create 3 Amazon Linux 2 VM instances
+- Instance type: t2.micro
+- Security Group (Open): 8080, 9100 and 22 to 0.0.0.0/0
+- Key pair: Select or create a new keypair
+- User data (Copy the following user data): https://github.com/cvamsikrishna11/devops-fully-automated/blob/- installations/deployment-servers-setup.sh
+- Launch Instance
+- After launching these servers, attach a tag as Key=Environment, value=dev/stage/prod ( out of 3, each 1 instance could be tagged as one env)
+
+3. Prometheus
+- Create Amazon Linux 2 VM instance and call it "Prometheus"
+- Instance type: t2.micro
+- Security Group (Open): 9090 and 22 to 0.0.0.0/0
+- Key pair: Select or create a new keypair
+- Attach Jenkins server with IAM role having "AmazonEC2ReadOnlyAccess"
+- User data (Copy the following user data): https://github.com/cvamsikrishna11/devops-fully-automated/blob/installations/prometheus-setup.sh
+- Launch Instance
+
+4. Grafana
+- Create an Ubuntu 20.04 VM instance and call it "Grafana"
+- Instance type: t2.micro
+- Security Group (Open): 3000 and 22 to 0.0.0.0/0
+- Key pair: Select or create a new keypair
+- User data (Copy the following user data): https://github.com/cvamsikrishna11/devops-fully-automated/blob/installations/grafana-setup.sh
+- Launch Instance
+
+5. Slack
+- Join the slack channel https://join.slack.com/t/devopsfullyau-r0x2686/shared_invite/- zt-1nzxt7e9z-ChDASWBOysUpa3tH5gi95A
+- Join into the channel "#team-devops"
+- Generate Team Subdomain & Integration Token Credential ID (workspace --> channel --> drop-down --> - integrations --> Add an App --> Jenkins CI --> Click on Install/View --> Configuration --> Add to Slack --> Select Channel #team-devops --> Store Team subdomain & Integration Token Credential ID which can be - used later on)
+
+# Prometheus setup
+Copy your Prometheus Public IP Address and paste on the browser = http:://PrometheusServerExternalIP:9090
+
+Note: Prometheus setup is also full automated, so just verifying the health of servers are required
+
+Checking targets health:
+- Once prometheus accessed --> Status --> Targets (for the health checkup)
+- Once prometheus accessed --> Status --> Configuration (for the config file verification)
+
+# Grafana setup
+Copy your Grafana Public IP Address and paste on the browser = http:://GrafanaServerExternalIP:3000
+
+1. Setting up username & password:
+- Once the UI Opens pass the following username and password
+   - Username: admin
+   - Password: admin
+   - New Username: admin
+   - New Password: admin
+   - Save and Continue
+
+2. Adding Datasource as Prometheus:
+- Once you get into Grafana, follow the below steps to Import a Dashboard into Grafana to visualize your Infrastructure/App Metrics
+    - Click on "Configuration/Settings" on your left
+    - Click on "Data Sources"
+    - Click on "Add Data Source"
+    - Select Prometheus
+    - Underneath HTTP URL: http://PrometheusPrivateIPaddress:9090
+    - Click on "SAVE and TEST"
+
+3. Create NodeExporter Dashboard:
+- Navigate to "Create" on your left (the + sign)
+      - Click on "Import"
+      - Download the required NodeExporter dashboard JSON in the link https://grafana.com/api/dashboards/1860/revisions/27/download ( #Ref: https://grafana.com/grafana/dashboards/1860-node-exporter-full/)
+      - Click on Upload JSON file and upload the file downloaded in the above step -
+      - Scrol down to "Prometheus" and select the "Data Source" you defined ealier which is "Prometheus"
+      - CLICK on "Import"
+      - Save
+- Refresh your Grafana Dashbaord
+    - Click on the "Drop Down" for "Host" and select any of the "Instances(IP)"
+
+4. Create Jenkins Performance and Health Overview Dashboard:
+- Navigate to "Create" on your left (the + sign)
+     - Click on "Import"
+     - Copy the following link: https://grafana.com/grafana/dashboards/9964 ( #Ref: https://grafana.com/grafana/dashboards/9964-jenkins-performance-and-health-overview/)
+     - Paste the above link where you have "Import Via Grafana.com"
+     - Click on Load (The one right beside the link you just pasted)
+     - Scrol down to "Prometheus" and select the "Data Source" you defined ealier which is "Prometheus"
+     - CLICK on "Import"
+     - Save
+Refresh your Grafana Dashbaord
+Click on the "Drop Down" for "Host" and select any of the "Instances(IP)"
