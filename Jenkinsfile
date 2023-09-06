@@ -118,12 +118,12 @@ pipeline {
         //         sh "sed -i \"s/.*<username><\\/username>/<username>$USER_NAME<\\/username>/g\" ${WORKSPACE}/settings.xml"
         //         sh "sed -i \"s/.*<password><\\/password>/<password>$PASSWORD<\\/password>/g\" ${WORKSPACE}/settings.xml"
         //         sh "sed -i 's|http://172.31.88.170:8081/repository/maven-snapshots/|http://172.31.88.170:8081/repository/maven-snapshots/|g' ${WORKSPACE}/settings.xml"
-        //         sh "sed -i 's|http://172.31.88.170:8081/repository/maven-release/|http://172.31.88.170:8081/repository/maven-release/|g' ${WORKSPACE}/settings.xml"
+        //         sh "sed -i 's|http://172.31.88.170:8081/repository/maven-releases/|http://172.31.88.170:8081/repository/maven-releases/|g' ${WORKSPACE}/settings.xml"
         //         sh "sed -i 's|<sonar.host.url>http://172.31.80.37:9000</sonar.host.url>|<sonar.host.url>http://172.31.80.37:9000</sonar.host.url>|g' ${WORKSPACE}/settings.xml"
         //         sh 'sudo cp ${WORKSPACE}/settings.xml /var/lib/jenkins/.m2'
         //         dir('JavaWebApp/') {
         //         sh "sed -i 's|http://172.31.30.168:8081/repository/maven-snapshots/|http://172.31.88.170:8081/repository/maven-snapshots/|g' pom.xml"
-        //         sh "sed -i 's|http://172.31.30.168:8081/repository/maven-release/|http://172.31.88.170:8081/repository/maven-release/|g' pom.xml"                
+        //         sh "sed -i 's|http://172.31.30.168:8081/repository/maven-releases/|http://172.31.88.170:8081/repository/maven-releases/|g' pom.xml"                
         //         sh 'mvn clean deploy -DskipTests'
         //         }
         //       }
