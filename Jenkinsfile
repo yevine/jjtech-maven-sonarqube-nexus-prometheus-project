@@ -131,51 +131,50 @@ pipeline {
             }
         }
 
-                stage('Deploy to DEV env') {
-            environment {
-                HOSTS = 'dev'
-            }
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'ansible-deploy-server-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USER_NAME')]) {
-                    sh "ansible-playbook ${WORKSPACE}/deploy.yaml --extra-vars \"ansible_user=$USER_NAME ansible_password=$PASSWORD hosts=$HOSTS workspace_path=$WORKSPACE\""
-                }
-            }
+                stage('Deploy to Development Env') {
+        environment {
+            HOSTS = 'dev'
         }
-
-        stage('Deploy to STAGE env') {
-            environment {
-                HOSTS = 'stage'
-            }
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'ansible-deploy-server-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USER_NAME')]) {
-                    sh "ansible-playbook ${WORKSPACE}/deploy.yaml --extra-vars \"ansible_user=$USER_NAME ansible_password=$PASSWORD hosts=$HOSTS workspace_path=$WORKSPACE\""
-                }
-            }
-        }
-
-        stage('Approval') {
-            steps {
-                input('Do you want to proceed?')
-            }
-        }
-
-        stage('Deploy to PROD env') {
-            environment {
-                HOSTS = 'prod'
-            }
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'ansible-deploy-server-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USER_NAME')]) {
-                    sh "ansible-playbook ${WORKSPACE}/deploy.yaml --extra-vars \"ansible_user=$USER_NAME ansible_password=$PASSWORD hosts=$HOSTS workspace_path=$WORKSPACE\""
-                }
+        steps {
+            withCredentials([usernamePassword(credentialsId: 'Ansible-Credential', passwordVariable: 'PASSWORD', usernameVariable: 'USER_NAME')]) {
+                sh "ansible-playbook -i ${WORKSPACE}/ansible-config/aws_ec2.yaml ${WORKSPACE}/deploy.yaml --extra-vars \"ansible_user=$USER_NAME ansible_password=$PASSWORD hosts=tag_Environment_$HOSTS workspace_path=$WORKSPACE\""
             }
         }
     }
-
-    post {
-        always {
-            echo 'cicd pipeline job for tower batch'
-            slackSend channel: '#tower', color: COLOR_MAP[currentBuild.currentResult], message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+    stage('Deploy to Staging Env') {
+        environment {
+            HOSTS = 'stage'
+        }
+        steps {
+            withCredentials([usernamePassword(credentialsId: 'Ansible-Credential', passwordVariable: 'PASSWORD', usernameVariable: 'USER_NAME')]) {
+                sh "ansible-playbook -i ${WORKSPACE}/ansible-config/aws_ec2.yaml ${WORKSPACE}/deploy.yaml --extra-vars \"ansible_user=$USER_NAME ansible_password=$PASSWORD hosts=tag_Environment_$HOSTS workspace_path=$WORKSPACE\""
+            }
         }
     }
+    stage('Quality Assurance Approval') {
+        steps {
+            input('Do you want to proceed?')
+        }
+    }
+    stage('Deploy to Production Env') {
+        environment {
+            HOSTS = 'prod'
+        }
+        steps {
+            withCredentials([usernamePassword(credentialsId: 'Ansible-Credential', passwordVariable: 'PASSWORD', usernameVariable: 'USER_NAME')]) {
+                sh "ansible-playbook -i ${WORKSPACE}/ansible-config/aws_ec2.yaml ${WORKSPACE}/deploy.yaml --extra-vars \"ansible_user=$USER_NAME ansible_password=$PASSWORD hosts=tag_Environment_$HOSTS workspace_path=$WORKSPACE\""
+            }
+         }
+      }
+   }
+
+   post {
+    always {
+        echo 'Slack Notifications.'
+        slackSend channel: '#tower', //update and provide your channel name
+        color: COLOR_MAP[currentBuild.currentResult],
+        message: "*${currentBuild.currentResult}:* Job Name '${env.JOB_NAME}' build ${env.BUILD_NUMBER} \n Build Timestamp: ${env.BUILD_TIMESTAMP} \n Project Workspace: ${env.WORKSPACE} \n More info at: ${env.BUILD_URL}"
+    }
+  }
 
 }
