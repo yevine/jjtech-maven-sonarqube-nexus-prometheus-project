@@ -229,6 +229,21 @@ Copy your Nexus Public IP Address and paste on the browser = http:://NexusServer
 - Launch Instance
 - After launching these servers, attach a tag as Key=Environment, value=dev/stage/prod ( out of 3, each 1 instance could be tagged as one env)
 
+2. Configure ansible hosts
+- navigate to jenkis server where ansible master is installed
+- cd /etc/ansible
+- sudo nano hosts
+- add config for [dev] [stage] and [prod] and paste private of servers respectively
+e.g 
+[dev]
+172.x.x.x ansible_user=ansadmin ansible_password=ansadmin
+
+[stage]
+172.x.x.x ansible_user=ansadmin ansible_password=ansadmin
+
+[prod]
+172.x.x.x ansible_user=ansadmin ansible_password=ansadmin
+
 3. Prometheus
 - Create Amazon Linux 2 VM instance and call it "Prometheus"
 - Instance type: t2.micro
