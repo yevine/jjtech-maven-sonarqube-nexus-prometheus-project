@@ -137,7 +137,7 @@ pipeline {
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'ansible-deploy-server-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USER_NAME')]) {
-                    sh "ansible-playbook -i ${WORKSPACE}/deploy.yaml --extra-vars \"ansible_user=$USER_NAME ansible_password=$PASSWORD hosts=$HOSTS workspace_path=$WORKSPACE\""
+                    sh "ansible-playbook ${WORKSPACE}/deploy.yaml --extra-vars \"ansible_user=$USER_NAME ansible_password=$PASSWORD hosts=$HOSTS workspace_path=$WORKSPACE\""
                 }
             }
         }
@@ -148,7 +148,7 @@ pipeline {
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'ansible-deploy-server-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USER_NAME')]) {
-                    sh "ansible-playbook -i ${WORKSPACE}/deploy.yaml --extra-vars \"ansible_user=$USER_NAME ansible_password=$PASSWORD hosts=$HOSTS workspace_path=$WORKSPACE\""
+                    sh "ansible-playbook ${WORKSPACE}/deploy.yaml --extra-vars \"ansible_user=$USER_NAME ansible_password=$PASSWORD hosts=$HOSTS workspace_path=$WORKSPACE\""
                 }
             }
         }
@@ -165,7 +165,7 @@ pipeline {
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'ansible-deploy-server-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USER_NAME')]) {
-                    sh "ansible-playbook -i ${WORKSPACE}/deploy.yaml --extra-vars \"ansible_user=$USER_NAME ansible_password=$PASSWORD hosts=$HOSTS workspace_path=$WORKSPACE\""
+                    sh "ansible-playbook ${WORKSPACE}/deploy.yaml --extra-vars \"ansible_user=$USER_NAME ansible_password=$PASSWORD hosts=$HOSTS workspace_path=$WORKSPACE\""
                 }
             }
         }
