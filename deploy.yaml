@@ -1,5 +1,5 @@
 - name: Ansible Copy Local to Remote
-  hosts: "{{hosts}}"
+  hosts: all #"{{hosts}}"
   vars:
     src_path: "{{ workspace_path }}/JavaWebApp/target/webapp.war"
     dest_path: "/var/lib/tomcat/webapps"
