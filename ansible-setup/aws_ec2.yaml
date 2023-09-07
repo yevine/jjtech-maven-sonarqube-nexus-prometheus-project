@@ -7,7 +7,7 @@ filters:
   # All instances with their `Environment` tag set to `dev`
 #  tag:Environment: dev
   # All dev and QA hosts
-  tag_Environment:
+  tag:Environment:
     - dev
     - stage
     - prod
