@@ -107,7 +107,7 @@ Once all plugins are installed, select Restart Jenkins when installation is comp
 # Slack integration
 
 - Create a slack channel
-  - Navigate to slace > create channel > open channel and click on the drop-down next to slack name > select integration > click "add app" > 
+  - Navigate to slack > create channel > open channel and click on the drop-down next to slack name > select integration > click "add app" > select Jenkins ci > configuration > add to slack > post to channel and select channel created > add jenkins ci integration > follow prompts to configure in jenkins
 
 # Global tools configuration:
 Click on Manage Jenkins --> Global Tool Configuration
