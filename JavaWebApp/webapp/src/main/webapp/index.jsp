@@ -59,9 +59,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           </div>
         </div>
         <div class="w3-container">
-          <p><em class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></em>Designer</p>
+          <p><em class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></em>JJTECH-TOWER</p>
           <p><em class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></em>London, UK</p>
-          <p><em class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></em>ex@mail.com</p>
+          <p><em class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></em>example@jjtech.com</p>
           <p><em class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></em>1224435534</p>
           <hr>
 
