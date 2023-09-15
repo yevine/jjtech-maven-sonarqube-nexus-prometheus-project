@@ -225,7 +225,7 @@ Copy your Nexus Public IP Address and paste on the browser = http:://NexusServer
 - Instance type: t2.micro
 - Security Group (Open): 8080, 9100 and 22 to 0.0.0.0/0
 - Key pair: Select or create a new keypair
-- User data (Copy the following user data): https://github.com/cvamsikrishna11/devops-fully-automated/blob/- installations/deployment-servers-setup.sh
+- User data (Copy the following user data): https://github.com/cvamsikrishna11/devops-fully-automated/blob/installations/deployment-servers-setup.sh
 - Launch Instance
 - After launching these servers, attach a tag as Key=Environment, value=dev/stage/prod ( out of 3, each 1 instance could be tagged as one env)
 
