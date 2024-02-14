@@ -233,7 +233,7 @@ Copy your Nexus Public IP Address and paste on the browser = http:://NexusServer
 - navigate to jenkis server where ansible master is installed
 - cd /etc/ansible
 - sudo nano hosts
-- add config for [dev] [stage] and [prod] and paste private of servers respectively
+- add config for [dev] [stage] and [prod] and paste private ip of servers respectively
 e.g 
 [dev]
 172.x.x.x ansible_user=ansadmin ansible_password=ansadmin

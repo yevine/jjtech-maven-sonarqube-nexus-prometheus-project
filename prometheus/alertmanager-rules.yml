@@ -1,9 +1,9 @@
 
 # HighCpuUsage: This rule triggers a warning-level alert when the CPU usage (user mode) 
-# rate exceeds 80% for at least 5 minutes.
+# rate exceeds 80% for at least 1 minutes.
 # HighMemoryUsage: This rule triggers a critical-level alert when the available memory falls 
-# below 20% (80% used) for at least 10 minutes.
-# DiskSpaceExhausted: This rule triggers a critical-level alert when the available disk space falls below 10% for at least 30 minutes. It uses the fstype label to target specific filesystem types
+# below 20% (80% used) for at least 1 minutes.
+# DiskSpaceExhausted: This rule triggers a critical-level alert when the available disk space falls below 10% for at least 1 minutes. It uses the fstype label to target specific filesystem types
 
 groups:
   - name: example-group

@@ -2,7 +2,7 @@ The following are instructions for installing Apache Maven and Java 8 on an Amaz
 
 ## Steps To Install Apache Maven and Java 8 on your EC2 instance
 
-1. Connect to your Amazon EC2 instance with an SSH client.
+1. Setup and connect to an Amazon EC2 linux2 instance with an SSH client.
 
 2. Install Apache Maven on your EC2 instance. First, enter the following to add a repository with a Maven package.
 
