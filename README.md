@@ -1,7 +1,30 @@
+## Install jenkins
+- Create an Amazon Linux 2 VM instance and call it "jenkins-maven-ansible"
+- Instance type: t2.medium
+- Security Group (Open): 8080, 9100 and 22 to 0.0.0.0/0
+- Key pair: Select or create a new keypair
+- User data (Copy the following user data): https://github.com/awanmbandi/eagles-batch-devops-projects/blob/maven-nexus-sonarqube-jenkins-install/- jenkins-install.sh
+- Launch Instance
+  
+  ### Access Jenkins
+- Copy your Jenkins Public IP Address and paste on the browser = ExternalIP:8080
+- Login to your Jenkins instance using your Shell (GitBash or your Mac Terminal)
+- Copy the Path from the Jenkins server via ssh to get the Administrator Password
+```bash 
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+```
+- Copy the password and login to Jenkins
+- Plugins: Choose Install Suggested Plugings
+- Provide
+**Username**: admin
+**Password**: admin
+- Name and Email can also be admin. You can use admin all, as its a poc.
+- Continue and Start using Jenkins
+
 ## Install Nexus Repository Manager
 - create ec2 intsnace, select linux2 OS, intance type: t2.medium and get userdata from link below. 
 - open port 8081 on secuirty group
-- https://github.com/awanmbandi/maven-nexus-project-eagles-batch/blob/maven-nexus-install/nexus-install.sh
+- User data (Copy the following user data) from [here](https://github.com/awanmbandi/maven-nexus-project-eagles-batch/blob/maven-nexus-install/nexus-install.sh)
 - access nexus on browser with PUBLIC_IP:8081
 - click on sign in on top right corner
 - username is "admin" : 
@@ -16,7 +39,7 @@
 - Create a linux2 instance (ensure to not select the 2023 linux ami) with t2.micro type. 
 - ssh into the instance and follow the link below for installation setup.
 - install tree with command: sudo yum install tree -y
-- https://github.com/awanmbandi/maven-nexus-project-eagles-batch/blob/maven-nexus-install/maven-install.md
+- Open this link [here](https://github.com/awanmbandi/maven-nexus-project-eagles-batch/blob/maven-nexus-install/maven-install.md) to get installation commands for maven
 
 ## Maven commands
 1. clone the source code from repository where it is stored.
@@ -33,7 +56,7 @@
 ## Install SonarQube
 - Launch ec2-instance with OS: ubuntu 20.04, type:t2.medium
 - Security group should allow port 9000 for inbound traffic
-- https://github.com/awanmbandi/eagles-batch-devops-projects/blob/maven-nexus-sonarqube-jenkins-install/sonarqube-install.sh
+- User data (Copy the following user data) from [here](https://github.com/awanmbandi/eagles-batch-devops-projects/blob/maven-nexus-sonarqube-jenkins-install/sonarqube-install.sh)
 - Access sonarqube on port PUBLIC_IP:9000
 - click login and user username:admin and password:admin
 - create new project and provide any random name. Then click setup
