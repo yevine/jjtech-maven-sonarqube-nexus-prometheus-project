@@ -79,9 +79,9 @@ mvn clean sonar:sonar deploy \
   -Dsonar.login=e53fbdbc2cb430e2005819e9c403aab4a192e10d
 
 
-######################################
-Jenkins pipeline project for jenkins-Maven-SOnarqube-Nexus-Slack
-#######################################
+
+#`Jenkins pipeline project for jenkins-Maven-SOnarqube-Nexus-Slack`
+
 
 # install docker and git in jenkins server
 - sudo yum install git -y
