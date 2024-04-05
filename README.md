@@ -80,10 +80,10 @@ mvn clean sonar:sonar deploy \
 
 
 
-#`Jenkins pipeline project for jenkins-Maven-SOnarqube-Nexus-Slack`
+# Jenkins pipeline project for jenkins-Maven-SOnarqube-Nexus-Slack
 
 
-# install docker and git in jenkins server
+## install docker and git in jenkins server
 - sudo yum install git -y
 - sudo yum install docker -y
 - sudo systemctl start docker
@@ -91,7 +91,7 @@ mvn clean sonar:sonar deploy \
 - sudo systemctl status docker
 - sudo usermod -aG docker jenkins
 
-# Plugin installations:
+## Plugin installations:
 - Click on "Manage Jenkins"
 - Click on "Plugin Manager"
 - Click "Available"
@@ -104,12 +104,12 @@ mvn clean sonar:sonar deploy \
    
 Once all plugins are installed, select Restart Jenkins when installation is complete and no jobs are running
 
-# Slack integration
+## Slack integration
 
 - Create a slack channel
   - Navigate to slack > create channel > open channel and click on the drop-down next to slack name > select integration > click "add app" > select Jenkins ci > configuration > add to slack > post to channel and select channel created > add jenkins ci integration > follow prompts to configure in jenkins
 
-# Global tools configuration:
+## Global tools configuration:
 Click on Manage Jenkins --> Global Tool Configuration
 
 JDK --> Add JDK --> Make sure Install automatically is enabled
@@ -127,17 +127,17 @@ JDKSetup!
   - Name: localMaven
   - Version: Keep the default version as it is
 
-# Credentials setup(SonarQube, Nexus, Ansible, Slack):
+## Credentials setup(SonarQube, Nexus, Ansible, Slack):
 Click on Manage Jenkins --> Manage Credentials --> Global credentials (unrestricted) --> Add Credentials
 
-## SonarQube secret token (sonarqube-token)
+### SonarQube secret token (sonarqube-token)
 - Kind: Secret text : Generating SonarQube secret token. Login to your SonarQube server (http://sonarserver-public-ip:9000, with the credentials username: admin & password: admin) - Click on profile --> My Account --> Security --> Tokens - Generate Tokens: Fill jenkins-token - Click on Generate - Copy the token
 - Secret: Fill the secret token value that we have created on the SonarQube server
 - ID: sonarqube-token
 - Description: sonarqube-token
 - Click on Create
 
-## Nexus username & password (nexus-credentials)
+### Nexus username & password (nexus-credentials)
 - Kind: Username with password
 - Username: admin
 - Enable Treat username as secret
@@ -146,7 +146,7 @@ Click on Manage Jenkins --> Manage Credentials --> Global credentials (unrestric
 - Description: nexus-credentials
 - Click on Create
 
-## Ansible deployment server username & password (ansible-deploy-server-credentials)
+### Ansible deployment server username & password (ansible-deploy-server-credentials)
 - Kind: Username with password
 - Username: ansadmin
 - Enable Treat username as secret
@@ -155,7 +155,7 @@ Click on Manage Jenkins --> Manage Credentials --> Global credentials (unrestric
 - Description: ansible-deploy-server-credentials
 - Click on Create
 
-## Slack secret token (slack-token)
+### Slack secret token (slack-token)
 - Kind: Secret text
 - Secret: Place the Integration Token Credential ID (Note: Generated from slack setup)
 - ID: slack-token
