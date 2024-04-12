@@ -5,18 +5,18 @@ METHOD 1
 
 # Install Java on the two slave nodes
 
-sudo amazon-linux-extras install java-openjdk11 -y
+```sudo amazon-linux-extras install java-openjdk11 -y```
 
 # Install git on slave nodes
 
-sudo yum install git -y
+```sudo yum install git -y```
 
 # Login to jenkins
 - piblic_ip:8080
 - create default user
-- navigate to jenkins dashboard >> manage jenkins >> nodes and Clouds >> New Node
-- Provide node name >> check Permanent Agent
-- use /opt/builds as  Remote root directory
+- navigate to jenkins dashboard >> manage jenkins >> nodes >> New Node
+- Provide node name >> check Permanent Agent >> create
+- use /opt/jenkins-builds as  Remote root directory
 - provide a label to the agent e.g Linux server
 - under "Custom WorkDir path" use your remote root directory set above
 - Check "Use WebSocket"
@@ -26,9 +26,9 @@ sudo yum install git -y
 # Customize the jenkins run command to connect jenkins master to slave. Ensure jenkins public IP matches your current public IP
 # Add sudo infront of the command and add "&" to run in background mode
 
-sudo curl -sO http://3.145.136.229:8080/jnlpJars/agent.jar
+```sudo curl -o agent.jar http://100.26.189.4:8080/jnlpJars/agent.jar```
 
-java -jar agent.jar -jnlpUrl http://3.145.136.229:8080/computer/linux%2Dslave1/jenkins-agent.jnlp -secret 075ae5cebbb7e6e83f70ca3195cf57183aabac754e81c55032a19ba85cbc0dd3 -workDir "/opt/jenkins-builds" &
+```java -jar agent.jar -jnlpUrl http://3.145.136.229:8080/computer/linux%2Dslave1/jenkins-agent.jnlp -secret 075ae5cebbb7e6e83f70ca3195cf57183aabac754e81c55032a19ba85cbc0dd3 -workDir "/opt/jenkins-builds" &```
 
 ##########################################################################################################3
 #######################################################################################################
