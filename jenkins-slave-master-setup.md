@@ -30,7 +30,7 @@ METHOD 1
 
 ```java -jar agent.jar -jnlpUrl http://3.145.136.229:8080/computer/linux%2Dslave1/jenkins-agent.jnlp -secret 075ae5cebbb7e6e83f70ca3195cf57183aabac754e81c55032a19ba85cbc0dd3 -workDir "/opt/jenkins-builds" &```
 
-##########################################################################################################3
+##########################################################################################################
 #######################################################################################################
 
 
@@ -58,11 +58,11 @@ Steps involved:
 only port 22 needs to be open
 
 # Change Host Name to Slave
-sudo hostnamectl set-hostname jenkins-agent2
+```sudo hostnamectl set-hostname jenkins-agent2```
 
 # Install Java
-sudo apt update -y 
-sudo amazon-linux-extras install java-openjdk11 -y
+```sudo apt update -y ```
+```sudo amazon-linux-extras install java-openjdk11 -y```
 
 # Install Maven
 1. Setup and connect to an Amazon EC2 linux2 instance with an SSH client. Note-Do not select the amazon 2023 instance. Choose the linux2 ami instead. 
@@ -117,32 +117,33 @@ sudo amazon-linux-extras install java-openjdk11 -y
     mvn -v
 
 # Create User as Jenkins
-sudo useradd -m jenkins
-sudo -u jenkins mkdir /home/jenkins/.ssh
+```sudo useradd -m jenkins```
+
+```sudo -u jenkins mkdir /home/jenkins/.ssh```
 
 ################################################################################################
 
-# Now Login to Jenkins Master
+# Now Login to Jenkins Master through ssh
 Create SSH keys by executing below command:
-ssh-keygen -t rsa -m PEM
+```ssh-keygen -t rsa -m PEM```
 
 # Copy SSH Keys from Master to Slave 
 
 Execute the below command in Jenkins master EC2.
-sudo cat ~/.ssh/id_rsa.pub
+```sudo cat ~/.ssh/id_rsa.pub```
 
 ###############################################################################################
 
 # Now Login to Slave node and execute the below command:
-sudo -u jenkins vi /home/jenkins/.ssh/authorized_keys
+```sudo -u jenkins vi /home/jenkins/.ssh/authorized_keys```
 
 This will be empty file, now copy the public keys from master into above file. 
-Once you pasted the public keys in the above file in Slave, come out of the file by entering :wq!
+Once you pasted the public keys in the above file in Slave, come out of the file by entering :wq! or SHIFT+ZZ
 
 #################################################################################################
 
-# Now go into master node and run the command: 
-ssh jenkins@slave_node_ip  
+# Now go into master jenkins server and run the command: <span style="color:red;">REPLACE SLAVE IP ADDRESS in comand below</span>
+```ssh jenkins@slave_node_ip  ```
 
 This is to make sure master is able to connect to slave node. once you are successfully logged into slave, type exit to come out of slave.
 
