@@ -92,7 +92,11 @@ create a linux2 machine for this agent config
 - select kind as **SSH username with private key**. enter **any name** for **ID**. Provide description, enter username as **root** , check section for **Private Key**, click on **Add** and provide private key copied from agent node in previous step.
 - under Host Key Verification Strategy, select Select **Manaually trusted key verification strategy**
   
-- **Navigate back to the agent server via ssh and update the **authorizationkey** file by adding the public key copied earlier just right under the existing config**
+- **Navigate back to the agent server via ssh and update the **authorized-key** file by adding the public key copied earlier just right under the existing config and save the file with **:wq!** by running
+  
+  ```
+  vi ~/.ssh/authorized-keys
+  ```
 
 ###############################################################################################################
 
