@@ -1,43 +1,6 @@
-METHOD 1
+# (Using SSH)
 
-# spin up 3 linux ec2 instances, instance type:t2.medium, ami: aws linux2 AMI
-# Install jenkins in one of the servers considered as master
-
-# Install Java on the two slave nodes
-
-```sudo amazon-linux-extras install java-openjdk11 -y```
-
-# Install git on slave nodes
-
-```sudo yum install git -y```
-
-# Login to jenkins
-- piblic_ip:8080
-- create default user
-- navigate to jenkins dashboard >> manage jenkins >> nodes >> New Node
-- Provide node name >> check Permanent Agent >> create
-- use /opt/jenkins-builds as  Remote root directory
-- provide a label to the agent e.g Linux server
-- under "Custom WorkDir path" use your remote root directory set above
-- Check "Use WebSocket"
-- Save the settings
-
-# Run the following commands in the jenkins slave nodes
-# Customize the jenkins run command to connect jenkins master to slave. Ensure jenkins public IP matches your current public IP
-# Add sudo infront of the command and add "&" to run in background mode
-
-```sudo curl -o agent.jar http://100.26.189.4:8080/jnlpJars/agent.jar```
-
-```java -jar agent.jar -jnlpUrl http://3.145.136.229:8080/computer/linux%2Dslave1/jenkins-agent.jnlp -secret 075ae5cebbb7e6e83f70ca3195cf57183aabac754e81c55032a19ba85cbc0dd3 -workDir "/opt/jenkins-builds" &```
-
-##########################################################################################################
-#######################################################################################################
-
-
-
-METHOD 2 (Using SSH)
-
-Pre-requisites:
+## Pre-requisites:
 
 - Jenkins Master is already setup and running
 - Create a new EC2 instance for Slave
@@ -52,7 +15,7 @@ Steps involved:
 
 ############################################################################################
 
-# The configuration below should be run from within jenkins agent/Slave node
+## The configuration below should be run from within jenkins agent/Slave node
 
 create a linux2 machine for this agent config
 
@@ -90,9 +53,13 @@ create a linux2 machine for this agent config
 
 - for credentials. click on the drop down symbol on add, then jenkins 
 - select kind as **SSH username with private key**. enter **any name** for **ID**. Provide description, enter username as **root** , check section for **Private Key**, click on **Add** and provide private key copied from agent node in previous step.
-- under Host Key Verification Strategy, select Select **Manaually trusted key verification strategy**
+- under Host Key Verification Strategy, select Select **Non verification strategy**
   
 - **Navigate back to the agent server via ssh and update the **authorizationkey** file by adding the public key copied earlier just right under the existing config**
+  
+  ```
+  vi ~/.ssh/authorized_keys
+  ```
 
 ###############################################################################################################
 
