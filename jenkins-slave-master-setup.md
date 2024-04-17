@@ -27,6 +27,7 @@ create a linux2 machine for this agent config
 
 ## Install Java
 ```yum update -y ```
+
 ```amazon-linux-extras install java-openjdk11 -y```
 
 
