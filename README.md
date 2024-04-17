@@ -20,19 +20,6 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 **Password**: admin
 - Name and Email can also be admin. You can use admin all, as its a poc.
 - Continue and Start using Jenkins
-
-## Install Nexus Repository Manager
-- create ec2 intsnace, select linux2 OS, intance type: t2.medium and get userdata from link below. 
-- open port 8081 on secuirty group
-- User data (Copy the following user data) from [here](https://github.com/awanmbandi/maven-nexus-project-eagles-batch/blob/maven-nexus-install/nexus-install.sh)
-- access nexus on browser with PUBLIC_IP:8081
-- click on sign in on top right corner
-- username is "admin" : 
-- ssh into nexus server and navigate to path from step above to get password: cat /opt/nexus/sonatype-work/nexus3/admin.password
-- copy default password and paste in password section on nexus and sign in
-- when prompted to customise new password, use: "admin", 
-- Click on disable anonymous access and then Finish.
-- 
  
 
 ## Install Apache Maven
@@ -64,7 +51,100 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 - Copy generated command and save ina secure location.
 - Navigate back to maven server and paste the command copied in previous step in the directory with pom.xml file
 
-## Configure Nexus Repository 
+
+## Install Nexus Repository Manager
+- create ec2 intsnace, select linux2 OS, intance type: t2.medium and get userdata from link below. 
+- open port 8081 on secuirty group
+- User data (Copy the following user data) from [here](https://github.com/awanmbandi/maven-nexus-project-eagles-batch/blob/maven-nexus-install/nexus-install.sh)
+- access nexus on browser with PUBLIC_IP:8081
+- click on sign in on top right corner
+- username is "admin" : 
+- ssh into nexus server and navigate to path from step above to get password: 
+
+```bash
+cat /opt/nexus/sonatype-work/nexus3/admin.password
+```
+
+- copy default password and paste in password section on nexus and sign in
+- when prompted to customise new password, use: "admin", 
+- Click on disable anonymous access and then Finish.
+- 
+## Uploading Artifacts to Nexus Repository 
+### Method1 (using nexusArtifactUploader)
+  - ### Navigate to Jenkins app
+     -  Go to **Manage Jenkins** >>  **plugins** >> **available plugins** and search for **nexusArtifactUploader** >> Install plugin and restart jenkins
+     -  Navigate back to jenkins dasboard and create a new job
+       Name: pipeline-job
+       Navigate down to **Pipeline** sectiona dn paste code in script below
+
+```bash
+pipeline {
+    agent any
+
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "maven"
+    }
+
+    stages {
+        stage('Code checkout'){
+            steps{
+                // Get some code from a GitHub repository
+                git branch: 'main', changelog: false, poll: false, url: 'https://YOUR_GIT_URL'
+            }
+        }
+
+
+        stage('Build') {
+            steps {
+                // Run Maven on a Unix agent.
+                dir('JavaWebApp2.0/') {
+                    echo 'performing mvn test'
+                    sh "mvn -Dmaven.test.failure.ignore=true clean package"      
+                }
+
+                // To run Maven on a Windows agent, use
+                // bat "mvn -Dmaven.test.failure.ignore=true clean package"
+            }
+
+        }
+
+
+        
+        stage('Upload artifact to Nexus') {
+            steps {
+                
+                dir('JavaWebApp2.0/'){
+                  nexusArtifactUploader artifacts: [
+                    [
+                        artifactId: 'JavaWebApp', 
+                        classifier: '', 
+                        file: 'target/JavaWebApp-1.2-SNAPSHOT.jar', 
+                        type: 'jar'
+                        
+                    ]
+                ], 
+                    credentialsId: 'NEXUS_CRED_ID', 
+                    groupId: 'com.example', 
+                    nexusUrl: 'NEXUS_PUB/PRIVATE_IP:8081', 
+                    nexusVersion: 'nexus3', 
+                    protocol: 'http', 
+                    repository: 'maven-snapshot', 
+                    version: '1.2-SNAPSHOT'
+                }
+            }
+        }
+    }  
+} 
+
+
+```
+
+- Update values in uppercase in the script you just pasted
+- Click on **apply** and **save**
+- At the next interface, click on **build now** and give a few seconds for pipeline to start
+
+### Method 2
 
 Series of tutorial code snippets for use
 #Maven publish tutorial steps
@@ -73,13 +153,13 @@ Publishing artifact to Nexus snapshot and release repo using maven.
 1. Create a snapshot repo using nexus, or use default coming in out of the box. DEFAULT 
 2. Create a release repo using nexus, or use default coming out of the box. DEFAULT
 3. Create a group repo having both release, snapshot and other third party repos. or use default coming out of the box.
-4. Navigate to vsCode and in the settings.cml file,
-- check to ensure your username and paswword for nexus is admin:admin on line 32 & 33.
+4. Navigate to vsCode and in the settings.xml file,
+- check to ensure your username and password for nexus is admin:admin on line 32 & 33.
 - update nexus repository urls with the current IP of nexus server on line 63 and 74 of settings.xml
 - update url for sonarqube on line 86  in the settings.xml file.
 - update nexus url in pom.xml file on line 57 and 61
 - commit changes and push to repo
-- pull chamges from within maven server
+- pull changes from within maven server
 5. copy settings.xml from within maven server into .m2 directory 
 - mv settings.xml ~/.m2
 
@@ -102,8 +182,8 @@ mvn clean sonar:sonar deploy \
   -Dsonar.login=e53fbdbc2cb430e2005819e9c403aab4a192e10d
 
 
-
-# Jenkins pipeline project for jenkins-Maven-SOnarqube-Nexus-Slack
+# PROJECT1
+## Jenkins pipeline project for jenkins-Maven-SOnarqube-Nexus-Slack
 
 
 ## install docker and git in jenkins server
@@ -253,7 +333,7 @@ Copy your Nexus Public IP Address and paste on the browser = http:://NexusServer
 - After launching these servers, attach a tag as Key=Environment, value=dev/stage/prod ( out of 3, each 1 instance could be tagged as one env)
 
 2. Configure ansible hosts
-- navigate to jenkis server where ansible master is installed
+- navigate to jenkins server where ansible master is installed
 - cd /etc/ansible
 - sudo nano hosts
 - add config for [dev] [stage] and [prod] and paste private ip of servers respectively
