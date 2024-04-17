@@ -1,111 +1,165 @@
 
-def COLOR_MAP = [
-    'SUCCESS': 'good',
-    'FAILURE': 'danger',
-]
+// def COLOR_MAP = [
+//     'SUCCESS': 'good',
+//     'FAILURE': 'danger',
+// ]
+
+// pipeline {
+    
+// //      agent {
+// //       node {
+// //     label 'jenkins-agent1'
+// //   }
+// // }
+    
+//     agent any
+//     // agent {
+//     //     docker { image 'maven:3.8.6-openjdk-11' }
+//     // }
+    
+//     tools {
+//       maven 'localmaven'
+//     //   jdk 'localJdk'
+//     }
+
+//     stages {
+//         stage('git checkout') {
+//             steps {
+//                 // Get some code from a GitHub repository
+//                  git branch: 'main', url: 'https://github.com/anselmenumbisia/jjtech-maven-sonarqube-nexus-prometheus-project.git'
+//             }
+
+//             }
+//         stage('test') {
+//             steps {
+//                 dir('JavaWebApp/') {
+//                     echo 'performing mvn test'
+//                     sh 'mvn clean test'
+                    
+//                 }
+                
+//             }
+
+//             }
+//           stage('approval') {
+//             steps {
+//                 input "Please review the test and click 'Proceed' to apply it"
+//             }
+//         }
+
+//         stage('build') {
+//             steps {
+//                 dir('JavaWebApp/') {
+//                     echo 'performing mvn build'
+//                     sh 'mvn clean package'
+                    
+//                 }
+                    
+                
+//             }
+//         }
+        
+//         stage('SonarQube scanning') {
+//             steps {
+//                 dir('JavaWebApp/') {
+//                 // withSonarQubeEnv('SonarQube') {
+//                     withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+//                         sh """
+//                     mvn sonar:sonar \
+//                      -Dsonar.projectKey=tower-project \
+//                      -Dsonar.host.url=http://172.31.80.37:9000 \
+//                      -Dsonar.login=$SONAR_TOKEN
+//                      """
+//                     }
+//                 // }
+//             }
+//         }
+//     }
+    
+//         //     stage('Quality Gate') {
+//         //     steps {
+//         //         waitForQualityGate abortPipeline: true
+//         //     }
+//         // }
+        
+//     stage('Upload artifact to Nexus') {
+//             steps {
+//                 withCredentials([usernamePassword(credentialsId: 'nexus-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USER_NAME')]) {
+//                 sh "sed -i \"s/.*<username><\\/username>/<username>$USER_NAME<\\/username>/g\" ${WORKSPACE}/settings.xml"
+//                 sh "sed -i \"s/.*<password><\\/password>/<password>$PASSWORD<\\/password>/g\" ${WORKSPACE}/settings.xml"
+//                 sh "sed -i 's|http://172.31.88.170:8081/repository/maven-snapshots/|http://172.31.88.170:8081/repository/maven-snapshots/|g' ${WORKSPACE}/settings.xml"
+//                 sh "sed -i 's|http://172.31.88.170:8081/repository/maven-release/|http://172.31.88.170:8081/repository/maven-release/|g' ${WORKSPACE}/settings.xml"
+//                 sh 'sudo cp ${WORKSPACE}/settings.xml /var/lib/jenkins/.m2'
+//                 dir('JavaWebApp/') {
+//                 sh "sed -i 's|http://172.31.88.170:8081/repository/maven-snapshots/|http://172.31.88.170:8081/repository/maven-snapshots/|g' pom.xml"
+//                 sh "sed -i 's|http://172.31.88.170:8081/repository/maven-release/|http://172.31.88.170:8081/repository/maven-release/|g' pom.xml"                
+//                 sh 'mvn clean deploy -DskipTests'
+//                 }
+//                 }
+               
+//             }
+//         }
+//     }
+    
+//     post {
+//         always {
+//             echo 'cicd pipeline job for tower batch'
+//             slackSend channel: '#tower-badge', color: COLOR_MAP[currentBuild.currentResult], message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+//         }
+//     }
+    
+// }
+
 
 pipeline {
-    
-//      agent {
-//       node {
-//     label 'jenkins-agent1'
-//   }
-// }
-    
     agent any
-    // agent {
-    //     docker { image 'maven:3.8.6-openjdk-11' }
-    // }
-    
+
     tools {
-      maven 'localmaven'
-    //   jdk 'localJdk'
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "maven"
     }
 
     stages {
-        stage('git checkout') {
+        stage('Build') {
             steps {
                 // Get some code from a GitHub repository
-                 git branch: 'main', url: 'https://github.com/anselmenumbisia/jjtech-maven-sonarqube-nexus-prometheus-project.git'
-            }
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/anselmenumbisia/jjtech-maven-sonarqube-nexus-prometheus-project.git'
 
-            }
-        stage('test') {
-            steps {
-                dir('JavaWebApp/') {
+                // Run Maven on a Unix agent.
+                dir('JavaWebApp2.0/') {
                     echo 'performing mvn test'
-                    sh 'mvn clean test'
+                    sh "mvn clean package"
                     
                 }
-                
+
+                // To run Maven on a Windows agent, use
+                // bat "mvn -Dmaven.test.failure.ignore=true clean package"
             }
 
-            }
-          stage('approval') {
-            steps {
-                input "Please review the test and click 'Proceed' to apply it"
-            }
         }
-
-        stage('build') {
+        
+        stage('Upload artifact to Nexus') {
             steps {
-                dir('JavaWebApp/') {
-                    echo 'performing mvn build'
-                    sh 'mvn clean package'
-                    
-                }
-                    
                 
-            }
-        }
-        
-        stage('SonarQube scanning') {
-            steps {
-                dir('JavaWebApp/') {
-                // withSonarQubeEnv('SonarQube') {
-                    withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
-                        sh """
-                    mvn sonar:sonar \
-                     -Dsonar.projectKey=tower-project \
-                     -Dsonar.host.url=http://172.31.80.37:9000 \
-                     -Dsonar.login=$SONAR_TOKEN
-                     """
-                    }
-                // }
-            }
-        }
-    }
-    
-        //     stage('Quality Gate') {
-        //     steps {
-        //         waitForQualityGate abortPipeline: true
-        //     }
-        // }
-        
-    stage('Upload artifact to Nexus') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'nexus-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USER_NAME')]) {
-                sh "sed -i \"s/.*<username><\\/username>/<username>$USER_NAME<\\/username>/g\" ${WORKSPACE}/settings.xml"
-                sh "sed -i \"s/.*<password><\\/password>/<password>$PASSWORD<\\/password>/g\" ${WORKSPACE}/settings.xml"
-                sh "sed -i 's|http://172.31.88.170:8081/repository/maven-snapshots/|http://172.31.88.170:8081/repository/maven-snapshots/|g' ${WORKSPACE}/settings.xml"
-                sh "sed -i 's|http://172.31.88.170:8081/repository/maven-release/|http://172.31.88.170:8081/repository/maven-release/|g' ${WORKSPACE}/settings.xml"
-                sh 'sudo cp ${WORKSPACE}/settings.xml /var/lib/jenkins/.m2'
-                dir('JavaWebApp/') {
-                sh "sed -i 's|http://172.31.88.170:8081/repository/maven-snapshots/|http://172.31.88.170:8081/repository/maven-snapshots/|g' pom.xml"
-                sh "sed -i 's|http://172.31.88.170:8081/repository/maven-release/|http://172.31.88.170:8081/repository/maven-release/|g' pom.xml"                
-                sh 'mvn clean deploy -DskipTests'
+                dir('JavaWebApp2.0/'){
+                  nexusArtifactUploader artifacts: [
+                    [
+                        artifactId: 'JavaWebApp', 
+                        classifier: '', 
+                        file: 'target/JavaWebApp-1.2-SNAPSHOT.jar', 
+                        type: 'jar'
+                        
+                    ]
+                ], 
+                    credentialsId: 'nexus-creds', 
+                    groupId: 'com.example', 
+                    nexusUrl: '18.212.7.72:8081', 
+                    nexusVersion: 'nexus3', 
+                    protocol: 'http', 
+                    repository: 'maven-snapshot', 
+                    version: '1.2-SNAPSHOT'
                 }
-                }
-               
             }
         }
-    }
-    
-    post {
-        always {
-            echo 'cicd pipeline job for tower batch'
-            slackSend channel: '#tower-badge', color: COLOR_MAP[currentBuild.currentResult], message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
-        }
-    }
-    
-}
+    }  
+} 
