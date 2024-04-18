@@ -48,11 +48,12 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 - click login and user username:admin and password:admin
 - create new project and provide any random name. Then click setup
 - Proivde name for token and generate token, select Java and then Maven.
-- Copy generated command and save ina secure location.
-- Navigate back to maven server and paste the command copied in previous step in the directory with pom.xml file
+- Copy generated command and save token in a secure location.
+- Modify existing pipeline job to add the code snippet below
+   
 
 
-## Install Nexus Repository Manager
+## Install Nexus Rrqubeepository Manager
 - create ec2 intsnace, select linux2 OS, intance type: t2.medium and get userdata from link below. 
 - open port 8081 on secuirty group
 - User data (Copy the following user data) from [here](https://github.com/awanmbandi/maven-nexus-project-eagles-batch/blob/maven-nexus-install/nexus-install.sh)
@@ -80,6 +81,12 @@ cat /opt/nexus/sonatype-work/nexus3/admin.password
 ```bash
 pipeline {
     agent any
+
+    # agent {
+    #     node {
+    #         label 'maven-agent'
+    #     }
+    # }
 
     tools {
         // Install the Maven version configured as "M3" and add it to the path.

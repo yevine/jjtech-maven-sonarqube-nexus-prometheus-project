@@ -112,7 +112,11 @@
 
 
 pipeline {
-    agent any
+    agent {
+        node {
+            label 'maven-agent'
+        }
+    }
 
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
@@ -143,6 +147,22 @@ pipeline {
         }
 
 
+        stage('Code quality Analysis') {
+            steps {
+                // Run Maven on a Unix agent.
+                dir('JavaWebApp2.0/') {
+                    echo 'Analyzing code for code quality'
+                    sh "mvn sonar:sonar \
+                       -Dsonar.projectKey=maven-project \
+                       -Dsonar.host.url=http://3.87.191.25:9000 \
+                       -Dsonar.login=a098564b2ae6821ad32f6f85375771c71191eae7"      
+                }
+
+            }
+
+        }
+
+
         
         stage('Upload artifact to Nexus') {
             steps {
@@ -159,7 +179,7 @@ pipeline {
                 ], 
                     credentialsId: 'nexus-creds', 
                     groupId: 'com.example', 
-                    nexusUrl: '18.212.7.72:8081', 
+                    nexusUrl: '172.31.90.210:8081', 
                     nexusVersion: 'nexus3', 
                     protocol: 'http', 
                     repository: 'maven-snapshot', 
