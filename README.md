@@ -80,69 +80,52 @@ cat /opt/nexus/sonatype-work/nexus3/admin.password
 
 ```bash
 pipeline {
-    agent any
-
-    # agent {
-    #     node {
-    #         label 'maven-agent'
-    #     }
-    # }
-
-    tools {
-        // Install the Maven version configured as "M3" and add it to the path.
-        maven "maven"
+ 
+ agent {
+    node {
+        label 'maven-agent'
     }
-
+}
+    
     stages {
-        stage('Code checkout'){
-            steps{
-                // Get some code from a GitHub repository
-                git branch: 'main', changelog: false, poll: false, url: 'https://YOUR_GIT_URL'
-            }
-        }
-
-
-        stage('Build') {
+        stage('Git checkout') {
             steps {
-                // Run Maven on a Unix agent.
-                dir('JavaWebApp2.0/') {
-                    echo 'performing mvn test'
-                    sh "mvn -Dmaven.test.failure.ignore=true clean package"      
-                }
-
-                // To run Maven on a Windows agent, use
-                // bat "mvn -Dmaven.test.failure.ignore=true clean package"
+                git branch: 'main', 
+                    credentialsId: 'github-creds', 
+                    url: 'https://github.com/anselmenumbisia/jjtech-maven-sonarqube-nexus-prometheus-project.git'
             }
-
         }
-
-
         
-        stage('Upload artifact to Nexus') {
+        stage('Build-job') {
             steps {
-                
-                dir('JavaWebApp2.0/'){
-                  nexusArtifactUploader artifacts: [
-                    [
-                        artifactId: 'JavaWebApp', 
-                        classifier: '', 
-                        file: 'target/JavaWebApp-1.2-SNAPSHOT.jar', 
-                        type: 'jar'
-                        
-                    ]
-                ], 
-                    credentialsId: 'NEXUS_CRED_ID', 
-                    groupId: 'com.example', 
-                    nexusUrl: 'NEXUS_PUB/PRIVATE_IP:8081', 
-                    nexusVersion: 'nexus3', 
-                    protocol: 'http', 
-                    repository: 'maven-snapshot', 
-                    version: '1.2-SNAPSHOT'
+                dir('JavaWebApp2.0') {
+                sh 'mvn clean package'
                 }
             }
         }
-    }  
-} 
+        
+        stage('Code-quality-anaylis with sonarqube') {
+            steps {
+                dir('JavaWebApp2.0') {
+                sh 'mvn sonar:sonar \
+                    -Dsonar.projectKey=innov-project \
+                    -Dsonar.host.url=http://54.208.72.208:9000 \
+                    -Dsonar.login=237cef8b460fe8bec72c03cd1d443f76c253b6b9'
+                }
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
+        }
+        
+    }
+}
+
+
+
 
 
 ```

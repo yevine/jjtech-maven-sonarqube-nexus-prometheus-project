@@ -1,39 +1,111 @@
 # Install Prometheus
-- Create an ec2 instance with Ubuntu 20.04 ami and t2.micro instance-type, allow inbond traffic on 9090
-- Create two ec2 instance  for app servers with Ubuntu 20.04 ami and t2.micro instance-type, allow inbond traffic on 9100
+- Create an ec2 instance with Ubuntu 20.04 ami and t2.micro instance-type, allow inbond traffic on 9090 **(default port for prometheus)**
+- Create two ec2 instance  for use as **app servers** with Ubuntu 20.04 ami and t2.micro instance-type, allow inbond traffic on 9100
 - ssh into prometheus server 
-- install git by running sudo <apt install git -y>
-- clone prometheus repo from within server git clone https://github.com/anselmenumbisia/maven-sonarqube-nexus-project.git
-- cd /home/ubuntu/maven-sonarqube-nexus-project/prometheus
-- install prometheus by running < sh install-prometheus.sh >
-- check that prometheus service is running < sudo systemctl status prometheus.service>
+- install git by running 
+  ```
+  sudo apt install git -y
+  ```
+- clone prometheus repo from within server 
+```
+git clone https://github.com/anselmenumbisia/maven-sonarqube-nexus-project.git
+```
+- then navigate to th e prometheus folder by running
+```
+cd /home/ubuntu/maven-sonarqube-nexus-project/prometheus
+```
+- install prometheus by running 
+  ```
+   sh install-prometheus.sh
+  ```
+- check that prometheus service is running 
+  ```
+   sudo systemctl status prometheus.service
 
-- ssh into app server 
-- Instal git and clone the github repo with source code
-- install node exporter <sh install-node-exporter.sh>
+   ```
+- Access prometheus on the browser by using 
+  ``` 
+  public-ip:9090
+  ```
 
-- navigate to prometheus server\
-- cd /etc/prometheus/
-- sudo nano prometheus.yml
-- add private ip address of app server with node exporter installed and paste in - targets section like this <private_ip:9100>
+- ssh into app server  by using ssh or instance connect
+- Instal git and clone the github repo with source code(follow same steps as in previous stage above)
+  - install git by running 
+  ```
+  sudo apt install git -y
+  ```
+  - clone prometheus repo from within server 
+  ```
+   git clone https://github.com/anselmenumbisia/maven-sonarqube-nexus-project.git
+  ```
+  - then navigate to th e prometheus folder by running
+  ```
+  cd maven-sonarqube-nexus-project/prometheus
+  ```
+- install node exporter 
+  ```
+  sh install-node-exporter.sh
+  ```
+- navigate to prometheus server then run below command
+  ```
+  cd /etc/prometheus/
+  ```
+- then edit the prometheus file using 
+  ```
+  sudo nano prometheus.yml
+  ```
+- add private ip address of app server with node exporter installed and paste in **- targets section** like this <private_ip:9100>
+  ```
+  scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+    ```
 - use ctrl x y enter to save and exit the nano editor
-- restart prometheus service <sudo systemctl restart prometheus.service>
+- restart prometheus service by running 
+  ```
+  sudo systemctl restart prometheus.service
+  ```
 
 # Configure Service discovery for Prometheus
-- create two new ec2-instance for prometheus service discovery, OS=Ubuntu, instance_type=t2.nano
-- Associate IAM role for ec2 to the prometheus server 
-- run < sudo nano /etc/prometheus/prometheus.yml >
-- Update file with config from prometheus_serviveDiscovery.yml from clone folder
-- restart prometheus service < sudo systemctl restart prometheus.service >
+- create two new ec2-instance for prometheus service discovery, OS=Ubuntu, instance_type=t2.nano. Allow inbound traffic on 9100
+- Associate IAM role for ec2 to the prometheus server. Ensure role has admin access
+- Update file with config from prometheus_serviveDiscovery.yml from cloned folder
+  ```
+  sudo nano /etc/prometheus/prometheus.yml 
+  ```
+- restart prometheus service 
+  ```
+  sudo systemctl restart prometheus.service
+  ```
 - verify targets in prometheus to confirm that prometheus can now discover the newly added servers
 
 # Install Grafana
-- Edit inbound security group rule for prometheus to allow traffic on port 3000
-- ssh into prometheus server 
-- cd /home/ubuntu/maven-sonarqube-nexus-project/prometheus
-- install prometheus by running < sh install-grafana.sh >
-- check that grafana service is running < sudo systemctl status grafana-server.service >
-- opena  new tab on browser and enter < public_ip:3000 > to access grafana
+- Create an ec2 instance with Ubuntu 20.04 ami and t2.micro instance-type, allow inbond traffic on 3000 **(default port for grafana)**
+  
+- ssh into grafana server 
+- install git by running 
+  ```
+  sudo apt install git -y
+  ```
+- clone prometheus repo from within server 
+```
+git clone https://github.com/anselmenumbisia/maven-sonarqube-nexus-project.git
+```
+- then navigate to th e prometheus folder by running
+```
+cd /home/ubuntu/maven-sonarqube-nexus-project/prometheus
+```
+- install grafana by running 
+  ```
+   sh install-grafana.sh
+  ```
+- check that grafana service is running 
+  ```
+  sudo systemctl status grafana-server.service
+  ```
+- Edit inbound security group rule for prometheus server to allow traffic on port 3000
+- To access grafana on the UI, open a new tab on browser and enter < public_ip:3000 > 
 - default username and password is < admin >
 - Add a data source for grafana and point to prometheus server url
 
