@@ -116,20 +116,64 @@ cd /home/ubuntu/maven-sonarqube-nexus-project/prometheus
 # Install prometheus alertmanager
 - ssh into prometheus server
 - edit inbound sg to allow traffic on port 9093
-- install alertmanager < sh install-alertmanager.sh >
+- then navigate to th e prometheus folder by running
+```
+cd /home/ubuntu/maven-sonarqube-nexus-project/prometheus
+```
+- install alertmanager
+  ```
+   sh install-alertmanager.sh 
+   ```
 - access alertmanager on the browser using < public_ip:9093 >
-- Navigate to < https://myaccount.google.com/ > 
-- https://myaccount.google.com/
-- configure 2 step verification for your google account? 
-- search for < app password >
-- Create an app password and paste the password to  ** auth_password ** section in your alertmanager file
-- update alertmanager file in /etc/alertmanager/ with your own configuration for email sender and   recipient by running < sudo nano /etc/alertmanager/alertmanager.yml >
-- restart the alermanager service < sudo systemctl restart alertmanager >
+  
+  ## Test Alertmanager
+- Navigate to https://myaccount.google.com/
+- configure 2 step verification for your google account if prompted to
+- search for **app passwords**
+- Create an app password and save the peassword in a safe location
+- Navigate to your prometheus server and edit your alert manager config file by running
+  ```
+  sudo nano /etc/alertmanager/alertmanager.yaml 
+  ```
+- update content with your own variables and paster password generated in previous step as value for **auth password**. Update email address to point to your email for test
+- restart the alermanager service 
+ ```
+sudo systemctl restart alertmanager
+```
+- Edit prometheus config file to call an alertmanager rule file called **alertmanager-rules.yml**
+  ```
+  sudo nano /etc/prometheus/prometheus.yaml
+  ```
 
+- uncomment section for alert manager in this file as see below
 
+```
+ rule_files:
+   - "alertmanager-rules.yml"
+
+ alerting:
+   alertmanagers:
+   - static_configs:
+     - targets:
+       - localhost:9093
+
+```
+
+- save file and restart prometheus service 
+  ```
+  sudo systemctl restart prometheus
+  ```
+- Check in prometheus app > status > rules that you can now see the rules
+- 
 ## Test alert rules
-- ssh into any apps server
-- install stress < sudo apt-get install stress >
-- The run < stress --cpu 4 --timeout 300s >
+- ssh into any apps/target servers where node exporter is installed
+- install stress
+```
+ sudo apt-get install stress
+ ```
+- The run 
+```
+stress --cpu 4 --timeout 300s
+```
 
 
