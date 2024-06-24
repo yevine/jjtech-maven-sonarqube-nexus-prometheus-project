@@ -53,7 +53,7 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
    
 
 
-## Install Nexus Rrqubeepository Manager
+## Install Nexus Repository Manager
 - create ec2 intsnace, select linux2 OS, intance type: t2.medium and get userdata from link below. 
 - open port 8081 on secuirty group
 - User data (Copy the following user data) from [here](https://github.com/awanmbandi/maven-nexus-project-eagles-batch/blob/maven-nexus-install/nexus-install.sh)

@@ -133,7 +133,7 @@ cd /home/ubuntu/maven-sonarqube-nexus-project/prometheus
 - Create an app password and save the peassword in a safe location
 - Navigate to your prometheus server and edit your alert manager config file by running
   ```
-  sudo nano /etc/alertmanager/alertmanager.yaml 
+  sudo nano /etc/alertmanager/alertmanager.yml 
   ```
 - update content with your own variables and paster password generated in previous step as value for **auth password**. Update email address to point to your email for test
 - restart the alermanager service 
@@ -142,7 +142,7 @@ sudo systemctl restart alertmanager
 ```
 - Edit prometheus config file to call an alertmanager rule file called **alertmanager-rules.yml**
   ```
-  sudo nano /etc/prometheus/prometheus.yaml
+  sudo nano /etc/prometheus/prometheus.yml
   ```
 
 - uncomment section for alert manager in this file as see below
