@@ -47,9 +47,13 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 - Access sonarqube on port PUBLIC_IP:9000
 - click login and user username:admin and password:admin
 - create new project and provide any random name. Then click setup
-- Proivde name for token and generate token, select Java and then Maven.
+- Proivde name for token and generate token, select **`Java`** and then **`Maven`**.
 - Copy generated command and save token in a secure location.
-- Modify existing pipeline job to add the code snippet below
+- from Maven server, navigate to directory with source code for the sonarqube and nexus
+```bash
+cd /maven-sonarqube-nexus-project/practice-mvn-nexus-sonar/JavaWebApp
+```
+- Run command generated in previous step in maven server
    
 
 
