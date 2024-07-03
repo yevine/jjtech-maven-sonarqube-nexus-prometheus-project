@@ -27,6 +27,7 @@ cd /home/ubuntu/maven-sonarqube-nexus-project/prometheus
   ``` 
   public-ip:9090
   ```
+# Install Node Exporter
 
 - ssh into app server  by using ssh or instance connect
 - Instal git and clone the github repo with source code(follow same steps as in previous stage above)
