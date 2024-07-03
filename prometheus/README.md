@@ -71,7 +71,35 @@ cd /home/ubuntu/maven-sonarqube-nexus-project/prometheus
 # Configure Service discovery for Prometheus
 - create two new ec2-instance for prometheus service discovery, OS=Ubuntu, instance_type=t2.nano. Allow inbound traffic on 9100
 - Associate IAM role for ec2 to the prometheus server. Ensure role has admin access
-- Update file with config from prometheus_serviveDiscovery.yml from cloned folder
+- Update file with config from prometheus_service Discovery.yml from cloned folder like this
+
+```bash
+global:
+  scrape_interval: 15s
+  external_labels:
+    monitor: 'prometheus'
+
+scrape_configs:
+  - job_name: 'node'
+    ec2_sd_configs:
+      - region: us-east-1
+        port: 9100
+
+#scrape_configs:
+ # - job_name: 'prometheus'
+  #  static_configs:
+   #   - targets: ['172.31.39.131:9100']
+
+# rule_files:
+#   - "alertmanager-rules.yml"
+
+# alerting:
+#   alertmanagers:
+#   - static_configs:
+#     - targets:
+#       - localhost:9093
+```
+
   ```
   sudo nano /etc/prometheus/prometheus.yml 
   ```
@@ -117,7 +145,7 @@ cd /home/ubuntu/maven-sonarqube-nexus-project/prometheus
 # Install prometheus alertmanager
 - ssh into prometheus server
 - edit inbound sg to allow traffic on port 9093
-- then navigate to th e prometheus folder by running
+- then navigate to the prometheus folder by running
 ```
 cd /home/ubuntu/maven-sonarqube-nexus-project/prometheus
 ```
