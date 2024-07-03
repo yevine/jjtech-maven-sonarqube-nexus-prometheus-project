@@ -133,10 +133,25 @@ cd /home/ubuntu/maven-sonarqube-nexus-project/prometheus
   ```
   sudo systemctl status grafana-server.service
   ```
-- Edit inbound security group rule for prometheus server to allow traffic on port 3000
-- To access grafana on the UI, open a new tab on browser and enter < public_ip:3000 > 
-- default username and password is < admin >
-- Add a data source for grafana and point to prometheus server url
+- To access grafana on the UI, 
+```bash
+- Access Grafana: Open a web browser and go to http://<Grafana-EC2-IP>:3000/.
+- Login: Default username and password are both admin (you will be prompted to change the password).
+- Add Data Source:
+- Click on the gear icon (Settings) in the left sidebar.
+- Click on Data Sources.
+- Click the Add data source button.
+- Select Prometheus.
+- In the URL field, enter http://<Prometheus-EC2-IP>:9090.
+- Click Save & Test to verify the connection.
+ 1. Create Grafana Dashboards
+- Create a Dashboard:
+- Click the + icon in the left sidebar.
+- Click Dashboard.
+- Click Add new panel.
+- Configure the query and visualization options to display your Prometheus metrics.
+- Save the dashboard
+```
 
 ##
 - Grab grafana dashboards from here https://grafana.com/grafana/dashboards/ 
