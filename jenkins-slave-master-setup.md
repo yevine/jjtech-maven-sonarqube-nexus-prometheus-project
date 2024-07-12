@@ -14,17 +14,21 @@ Steps involved:
 
 ############################################################################################
 
-## The configuration below should be run from within jenkins agent/Slave node
+## in the Jenkins Agent
 
-## Install Java
+- Install Java
 ```yum update -y ```
 
+and then 
+
+## Install amazon linux extras
 ```amazon-linux-extras install java-openjdk11 -y```
 
 
-## Create SSH keys by executing below command:
+## Navigate to jenkins Master servers and Create SSH keys by executing below commands:
 <span style="color:red;">Note:</span> Press enter key  on keyboard for all the prompts until you regain control of your terminal
 
+##### Switch user to root
 ```bash
 sudo su root
 ```
@@ -32,7 +36,7 @@ and then run
 
 ```ssh-keygen -t rsa -m PEM```
 
-## Copy private and public keys from agent node created in previous step and save in notepad for future use
+## Copy private and public keys from jenkins master node created in previous step and save in notepad for future use
 
 ```cat ~/.ssh/id_rsa```
 
