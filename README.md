@@ -1,10 +1,10 @@
 ## Install jenkins
-- Create an Amazon Linux 2 VM instance and call it "jenkins-maven-ansible"
+- Create an Amazon Linux2023 VM instance and call it "jenkins-maven-ansible"
 - Instance type: t2.medium
 - Security Group (Open): 8080, 9100 and 22 to 0.0.0.0/0
 - Key pair: Select or create a new keypair
 - User data (Copy the following user data) from [here](https://github.com/anselmenumbisia/jjtech-ci-cd-pipeline-project-k8s/blob/main/installation-scripts/jenkins-ansible-git-terraform-docker.sh) 
-   
+   v
 - Launch Instance   
   ### Access Jenkins
 - Copy your Jenkins Public IP Address and paste on the browser = ExternalIP:8080
