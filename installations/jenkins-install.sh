@@ -53,8 +53,8 @@ sudo dnf update
 sudo dnf install python3.11 -y
 sudo dnf install python3-pip -y
 sudo pip install ansible
-sudo useradd ansadmin
-sudo sh -c 'echo "ansadmin:ansadmin" | chpasswd'
+sudo useradd ansibleadmin
+sudo sh -c 'echo "ansibleadmin:ansibleadmin" | chpasswd'
 sudo mkdir -p /etc/ansible
 sudo sh -c 'cat << EOF > /etc/ansible/ansible.cfg
 $(cat ansible.cfg.template)
