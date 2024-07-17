@@ -39,9 +39,6 @@ sudo systemctl enable jenkins
 # Start Jenkins as a service:
 sudo systemctl start jenkins
 
-# You can check the status of the Jenkins service using the command:
-sudo systemctl status jenkins
-
 # Installing Git
 sudo yum install git -y
 
