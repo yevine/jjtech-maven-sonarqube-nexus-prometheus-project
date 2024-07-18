@@ -53,6 +53,7 @@ sudo dnf update
 sudo dnf install python3.11 -y
 sudo dnf install python3-pip -y
 sudo pip install ansible
+sudo pip install boto3
 sudo useradd ansibleadmin
 sudo sh -c 'echo "ansibleadmin:ansibleadmin" | chpasswd'
 sudo mkdir -p /etc/ansible
@@ -62,6 +63,10 @@ EOF'
 sudo sed -i "s/.*#host_key_checking = False/host_key_checking = False/g" /etc/ansible/ansible.cfg
 sudo sed -i "s/.*#enable_plugins = host_list, virtualbox, yaml, constructed/enable_plugins = aws_ec2/g" /etc/ansible/ansible.cfg
 
+# Enable Password Authentication and Grant Sudo Privilege
+sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+systemctl restart sshd
+echo "ansibleadmin ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # ## Installing Ansible
 # #sudo amazon-linux-extras install ansible2 -y
@@ -73,6 +78,15 @@ sudo sed -i "s/.*#enable_plugins = host_list, virtualbox, yaml, constructed/enab
 # sudo sed -i "s/.*#host_key_checking = False/host_key_checking = False/g" /etc/ansible/ansible.cfg
 # sudo sed -i "s/.*#enable_plugins = host_list, virtualbox, yaml, constructed/enable_plugins = aws_ec2/g" /etc/ansible/ansible.cfg
 # sudo ansible-galaxy collection install amazon.aws
+
+# # Enable Password Authentication and Grant Sudo Privilege
+# sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+# systemctl restart sshd
+# echo "ansibleadmin ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+## Install SSHPASS
+sudo dnf update
+sudo dnf install sshpass -y
 
 # Setup terraform
 sudo yum install -y yum-utils
