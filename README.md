@@ -156,7 +156,7 @@ Publishing artifact to Nexus snapshot and release repo using maven.
 - pull changes from within maven server
 5. copy settings.xml from within maven server into .m2 directory 
 ```bash
- mv ~/maven-sonarqube-nexus-project/settings.xml ~/.m2
+ mv ~/**replace with REPO_NAME**/settings.xml ~/.m2
 ```
 
 6. Run the following `maven`/`mvn` command to deploy jar package to a remote repo.
