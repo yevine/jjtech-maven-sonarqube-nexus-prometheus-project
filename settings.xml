@@ -60,7 +60,7 @@ under the License.
        <repository>
          <id>nexus-snapshot-repo</id>
          <name>maven-snapshots</name>
-         <url>http://18.206.192.143:8081/repository/maven-snapshots/</url>
+         <url>http://35.183.205.246:8081/repository/prestigious-snapshots/</url>
        </repository>
 	   
      </repositories>
@@ -71,7 +71,7 @@ under the License.
        <repository>
          <id>nexus-release-repo</id>
          <name>maven-release</name>
-         <url>http://18.206.192.143:8081/repository/maven-releases/</url>
+         <url>http://35.183.205.246:8081/repository/prestigious-releases/</url>
        </repository>
      </repositories>
    </profile>

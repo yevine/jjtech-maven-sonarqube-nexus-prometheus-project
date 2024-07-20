@@ -41,7 +41,7 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
    - `mvn install`    (install the package into the local repository, for use as a dependency in other projects locally.)
 
 ## Install SonarQube
-- Launch ec2-instance with OS: ubuntu 20.04, type:t2.medium
+- Launch ec2-instance with OS: ubuntu 22.04, type:t2.medium
 - Security group should allow port 9000 for inbound traffic
 - User data (Copy the following user data) from [here](https://github.com/awanmbandi/eagles-batch-devops-projects/blob/maven-nexus-sonarqube-jenkins-install/sonarqube-install.sh)
 - Access sonarqube on port PUBLIC_IP:9000
