@@ -89,6 +89,13 @@ pipeline {
     //             waitForQualityGate abortPipeline: true
     //         }
     //     }
+            stage('SonarQube GateKeeper') {
+            steps {
+              timeout(time : 1, unit : 'HOURS'){
+              waitForQualityGate abortPipeline: true
+              }
+           }
+        }
 
             stage('SonarQube scanning') {
             steps {
